@@ -113,7 +113,7 @@ export default function Mission() {
     <section
       id="mission"
       ref={ref}
-      className={`relative scroll-mt-24 overflow-hidden px-5 py-10 sm:px-8 md:py-12 ${
+      className={`relative scroll-mt-24 overflow-hidden px-5 py-16 sm:px-8 md:py-24 lg:py-28 ${
         visible ? "on" : ""
       }`}
       style={{ backgroundColor: BG }}
@@ -147,11 +147,11 @@ export default function Mission() {
         }
       `}</style>
 
-      <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1.25fr_1fr] md:gap-10">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-[1.15fr_1fr] md:gap-14 lg:gap-20">
         {/* ---------- Left: icon + text ---------- */}
-        <div className="flex items-start gap-4 sm:gap-6">
+        <div className="flex items-start gap-5 sm:gap-8">
           <div
-            className={`h-14 w-14 shrink-0 sm:h-16 sm:w-16 ${iconReveal.className}`}
+            className={`h-20 w-20 shrink-0 sm:h-24 sm:w-24 lg:h-28 lg:w-28 ${iconReveal.className}`}
             style={iconReveal.style}
           >
             <TargetIcon />
@@ -159,7 +159,7 @@ export default function Mission() {
 
           <div>
             <h2
-              className={`m-serif text-2xl font-bold uppercase tracking-wide sm:text-3xl ${titleReveal.className}`}
+              className={`m-serif text-3xl font-bold uppercase tracking-wide sm:text-4xl lg:text-5xl ${titleReveal.className}`}
               style={{ ...titleReveal.style, color: BROWN }}
             >
               Our Mission
@@ -167,14 +167,14 @@ export default function Mission() {
 
             {/* Underline jo width mein grow karti hai */}
             <span
-              className={`mt-2 block h-0.5 rounded-full transition-all duration-700 ease-out motion-reduce:transition-none ${
-                visible ? "w-10" : "w-0"
+              className={`mt-3 block h-[3px] rounded-full transition-all duration-700 ease-out motion-reduce:transition-none ${
+                visible ? "w-16 lg:w-20" : "w-0"
               }`}
               style={{ backgroundColor: TERRA, transitionDelay: "450ms" }}
             />
 
             <p
-              className={`mt-4 max-w-sm text-sm leading-relaxed text-[#4A3A31] sm:text-[15px] ${textReveal.className}`}
+              className={`mt-5 max-w-lg text-base leading-relaxed text-[#4A3A31] sm:text-lg lg:mt-6 lg:text-xl lg:leading-relaxed ${textReveal.className}`}
               style={textReveal.style}
             >
               To inspire creativity, build confidence and promote holistic well-being through art,
@@ -185,7 +185,7 @@ export default function Mission() {
 
         {/* ---------- Right: brush stroke + script text ---------- */}
         <div
-          className={`relative mx-auto aspect-[400/230] w-full max-w-sm md:max-w-none ${rightReveal.className}`}
+          className={`relative mx-auto aspect-[400/230] w-full max-w-md md:max-w-none ${rightReveal.className}`}
           style={rightReveal.style}
         >
           {/* Brush stroke (left se right wipe hota hai) */}
@@ -226,7 +226,7 @@ export default function Mission() {
                 {["Create", "Move", "Be Well"].map((line, i) => (
                   <span
                     key={line}
-                    className="m-script m-line block text-[2rem] leading-[1.05] sm:text-[2.4rem] md:text-[2.2rem] lg:text-[2.6rem]"
+                    className="m-script m-line block text-[2.6rem] leading-[1.05] sm:text-[3.4rem] md:text-[3rem] lg:text-[4rem]"
                     style={{ color: SCRIPT_RED, ...cssVar(1000 + i * 250) }}
                   >
                     {line}
