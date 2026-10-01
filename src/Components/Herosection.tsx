@@ -10,36 +10,6 @@ const CREAM = "#F6EBDC";
 const TERRA = "#C2571A";
 const BROWN = "#3B1F14";
 
-/* ---------- Icons ---------- */
-function UsersIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={TERRA} strokeWidth="2" strokeLinecap="round">
-      <circle cx="9" cy="8" r="3.5" />
-      <path d="M2.5 20c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5" />
-      <circle cx="17" cy="9" r="2.8" />
-      <path d="M15.5 13.2c2.9.4 5 2.9 5 6.3" />
-    </svg>
-  );
-}
-
-function ShieldIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#5F7A4A" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6l-8-3Z" />
-      <path d="M9 12l2 2 4-4" />
-    </svg>
-  );
-}
-
-function ClockIcon() {
-  return (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#B7791F" strokeWidth="2" strokeLinecap="round">
-      <circle cx="12" cy="12" r="9" />
-      <path d="M12 7v5l3.5 2" />
-    </svg>
-  );
-}
-
 function ArrowIcon() {
   return (
     <svg
@@ -73,22 +43,22 @@ export default function Hero({
     style: { transitionDelay: `${delay}ms` },
   });
 
+  const titleEnter = enter(0);
+  const taglineEnter = enter(150);
+  const buttonEnter = enter(300);
+
   return (
     <section className="relative overflow-hidden" style={{ backgroundColor: CREAM }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400;1,500&display=swap');
         .hero-serif { font-family: 'Playfair Display', Georgia, 'Times New Roman', serif; }
-        @keyframes hero-float {
-          0%, 100% { transform: translateY(0); }
-          50%      { transform: translateY(-6px); }
-        }
         @keyframes hero-slow-zoom {
           from { transform: scale(1); }
           to   { transform: scale(1.04); }
         }
         .hero-bg-zoom { animation: hero-slow-zoom 14s ease-in-out infinite alternate; }
         @media (prefers-reduced-motion: reduce) {
-          .hero-float, .hero-bg-zoom { animation: none !important; }
+          .hero-bg-zoom { animation: none !important; }
         }
       `}</style>
 
@@ -114,9 +84,8 @@ export default function Hero({
         <div className="relative px-6 pb-6 pt-10 sm:px-10 sm:pt-14 lg:absolute lg:inset-y-0 lg:left-[9%] lg:flex lg:flex-col lg:justify-center lg:p-0">
           {/* Title */}
           <h1
-            {...enter(0)}
-            className={`hero-serif text-5xl font-semibold uppercase leading-[1.05] tracking-tight sm:text-6xl lg:text-[6.4cqw] ${enter(0).className}`}
-            style={{ ...enter(0).style, color: BROWN }}
+            className={`hero-serif text-5xl font-semibold uppercase leading-[1.05] tracking-tight sm:text-6xl lg:text-[6.4cqw] ${titleEnter.className}`}
+            style={{ ...titleEnter.style, color: BROWN }}
           >
             Tutan&rsquo;s
             <br />
@@ -124,7 +93,7 @@ export default function Hero({
           </h1>
 
           {/* Tagline: Draw • Move • Breathe • Grow */}
-          <div {...enter(150)}>
+          <div className={taglineEnter.className} style={taglineEnter.style}>
             <div
               className="hero-serif mt-3 flex flex-wrap items-center gap-x-3 gap-y-1 text-lg italic sm:text-xl lg:mt-[1.4cqw] lg:gap-x-[1.2cqw] lg:text-[2.3cqw]"
               style={{ color: BROWN }}
@@ -132,14 +101,14 @@ export default function Hero({
               {TAGLINE.map((w, i) => (
                 <span key={w} className="flex items-center gap-3 lg:gap-[1.2cqw]">
                   <span>{w}</span>
-                  {i < TAGLINE.length - 1 && <span style={{ color: BROWN }}>&bull;</span>}
+                  {i < TAGLINE.length - 1 && <span>&bull;</span>}
                 </span>
               ))}
             </div>
           </div>
 
           {/* Button */}
-          <div {...enter(300)}>
+          <div className={buttonEnter.className} style={buttonEnter.style}>
             <Link
               to="/#contact"
               className="group mt-6 inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:text-base lg:mt-[2.2cqw] lg:gap-[1.2cqw] lg:px-[3cqw] lg:py-[1.2cqw] lg:text-[1.7cqw]"
