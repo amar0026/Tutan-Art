@@ -8,7 +8,6 @@ const OFFLINE_IMG = ""; // <-- yoga mats wali image
 /* ---------- Theme (Navbar + Hero + About jaisa) ---------- */
 const CREAM = "#FBF6EE";
 const TERRA = "#C2571A";
-const TERRA_DARK = "#A84812";
 const BROWN = "#3B1F14";
 const PEACH = "#F3D9BC";
 const PEACH_DARK = "#EBC9A0";
