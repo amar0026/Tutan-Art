@@ -57,12 +57,6 @@ function ArrowIcon() {
   );
 }
 
-const FEATURES = [
-  { icon: <UsersIcon />, bg: "#F6E0CF", title: "Expert Instructors", desc: "Learn from experienced and passionate teachers" },
-  { icon: <ShieldIcon />, bg: "#E6EDDC", title: "Safe & Friendly Environment", desc: "A positive space to grow and explore" },
-  { icon: <ClockIcon />, bg: "#F8EBC8", title: "Flexible Batches", desc: "Convenient timings for all age groups" },
-];
-
 const TAGLINE = ["Draw", "Move", "Breathe", "Grow"];
 
 export default function Hero({
@@ -172,8 +166,6 @@ export default function Hero({
           />
         </div>
       </div>
-
-    
     </section>
   );
 }
