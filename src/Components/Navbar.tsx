@@ -19,7 +19,7 @@ interface NavbarProps {
 
 function MenuIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <line x1="3" y1="6" x2="21" y2="6" />
       <line x1="3" y1="12" x2="21" y2="12" />
       <line x1="3" y1="18" x2="21" y2="18" />
@@ -29,9 +29,29 @@ function MenuIcon() {
 
 function CloseIcon() {
   return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+// CTA button ka arrow (hover par aage slide karta hai)
+function ArrowIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="transition-transform duration-300 group-hover:translate-x-1"
+    >
+      <line x1="5" y1="12" x2="19" y2="12" />
+      <polyline points="12 5 19 12 12 19" />
     </svg>
   );
 }
@@ -44,97 +64,149 @@ export default function Navbar({
   const [open, setOpen] = useState(false);
 
   return (
-    // Warm cream background + halka rose border = soft aur professional look
-    <nav className="relative flex items-center justify-between px-5 py-3 sm:px-8 bg-[#FFF8F3] border-b border-rose-100 shadow-sm">
-      {/* Logo */}
-      <Link to="/" className="flex items-center gap-2 shrink-0" onClick={() => setActive("Home")}>
-        <img
-          src={logoSrc}
-          alt={logoAlt}
-          className="h-20 w-auto object-contain"
-        />
-      </Link>
+    <>
+      {/* Custom animations (Tailwind config ki zaroorat nahi) */}
+      <style>{`
+        @keyframes nav-slide-down {
+          from { opacity: 0; transform: translateY(-16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes nav-fade-up {
+          from { opacity: 0; transform: translateY(-8px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .nav-enter   { animation: nav-slide-down 0.6s ease-out both; }
+        .nav-item-in { animation: nav-fade-up 0.5s ease-out both; }
+        @media (prefers-reduced-motion: reduce) {
+          .nav-enter, .nav-item-in { animation: none; }
+        }
+      `}</style>
 
-      {/* Desktop links */}
-      <ul className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-700">
-        {NAV_LINKS.map((link) => (
-          <li key={link.label}>
-            <Link
-              to={link.to}
-              onClick={() => setActive(link.label)}
-              className="relative py-1 block transition-colors duration-200 hover:text-rose-600"
+      {/* Warm cream background + halka border = soft aur clean look */}
+      <nav className="nav-enter relative flex items-center justify-between gap-4 px-4 py-3 sm:px-8 lg:px-12 bg-[#FBF6EE] border-b border-[#EFE4D3] shadow-sm">
+        {/* Logo */}
+        <Link
+          to="/"
+          className="flex items-center gap-2 shrink-0 transition-transform duration-300 hover:scale-105"
+          onClick={() => setActive("Home")}
+        >
+          <img
+            src={logoSrc}
+            alt={logoAlt}
+            className="h-16 sm:h-20 lg:h-28 w-auto object-contain"
+          />
+        </Link>
+
+        {/* Desktop links */}
+        <ul className="hidden md:flex items-center gap-6 lg:gap-11 ml-auto mr-5 lg:mr-10 text-base lg:text-lg font-medium text-slate-800">
+          {NAV_LINKS.map((link, i) => (
+            <li
+              key={link.label}
+              className="nav-item-in"
+              style={{ animationDelay: `${150 + i * 80}ms` }}
             >
-              <span className={active === link.label ? "text-rose-600" : ""}>
-                {link.label}
-              </span>
-              <span
-                className={`absolute left-0 -bottom-0.5 h-0.5 bg-rose-600 rounded-full transition-all duration-300 ease-out ${
-                  active === link.label ? "w-full" : "w-0"
-                }`}
-              />
-            </Link>
-          </li>
-        ))}
-      </ul>
-
-      {/* Desktop CTA */}
-      <Link
-        to="/#contact"
-        onClick={() => setActive("Contact")}
-        className="hidden md:inline-flex items-center rounded-full bg-rose-500 px-5 py-2 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:bg-rose-600 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
-      >
-        Enroll Now
-      </Link>
-
-      {/* Mobile toggle */}
-      <button
-        className="md:hidden text-slate-700"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="Toggle menu"
-        aria-expanded={open}
-      >
-        {open ? <CloseIcon /> : <MenuIcon />}
-      </button>
-
-      {/* Mobile menu (navbar ke same cream bg ke saath) */}
-      <div
-        className={`absolute md:hidden top-full left-0 w-full z-50 bg-[#FFF8F3] border-b border-rose-100 shadow-md overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out ${
-          open ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-        }`}
-      >
-        <ul className="flex flex-col items-start gap-1 px-6 py-4">
-          {NAV_LINKS.map((link) => (
-            <li key={link.label} className="w-full">
               <Link
                 to={link.to}
-                onClick={() => {
-                  setActive(link.label);
-                  setOpen(false);
-                }}
-                className={`block w-full text-left py-2 text-sm font-medium border-l-2 pl-3 transition-colors duration-200 ${
-                  active === link.label
-                    ? "text-rose-600 border-rose-600"
-                    : "text-slate-700 border-transparent hover:text-rose-600"
-                }`}
+                onClick={() => setActive(link.label)}
+                className="group relative block py-1 transition-colors duration-200 hover:text-[#C2571A]"
               >
-                {link.label}
+                <span
+                  className={`transition-colors duration-200 ${
+                    active === link.label ? "text-[#C2571A]" : ""
+                  }`}
+                >
+                  {link.label}
+                </span>
+                {/* Underline: active par full, hover par bhi grow karti hai */}
+                <span
+                  className={`absolute left-0 -bottom-0.5 h-0.5 rounded-full bg-[#C2571A] transition-all duration-300 ease-out ${
+                    active === link.label ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
               </Link>
             </li>
           ))}
-          <li className="w-full">
-            <Link
-              to="/#contact"
-              onClick={() => {
-                setActive("Contact");
-                setOpen(false);
-              }}
-              className="mt-2 block w-full text-center rounded-full bg-rose-500 px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 hover:bg-rose-600"
-            >
-              Enroll Now
-            </Link>
-          </li>
         </ul>
-      </div>
-    </nav>
+
+        {/* Desktop CTA */}
+        <Link
+          to="/#contact"
+          onClick={() => setActive("Contact")}
+          className="nav-item-in group hidden md:inline-flex shrink-0 items-center gap-2 rounded-full bg-[#C2571A] px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#A84812] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+          style={{ animationDelay: "600ms" }}
+        >
+          Join a Class
+          <ArrowIcon />
+        </Link>
+
+        {/* Mobile toggle */}
+        <button
+          className="md:hidden rounded-full p-2.5 text-slate-800 transition-all duration-300 hover:bg-[#F3E7D6] hover:text-[#C2571A] active:scale-90"
+          onClick={() => setOpen((v) => !v)}
+          aria-label="Toggle menu"
+          aria-expanded={open}
+        >
+          <span
+            className={`block transition-transform duration-300 ${
+              open ? "rotate-90" : "rotate-0"
+            }`}
+          >
+            {open ? <CloseIcon /> : <MenuIcon />}
+          </span>
+        </button>
+
+        {/* Mobile menu (navbar ke same cream bg ke saath) */}
+        <div
+          className={`absolute md:hidden top-full left-0 w-full z-50 bg-[#FBF6EE] border-b border-[#EFE4D3] shadow-md overflow-hidden transition-[max-height,opacity] duration-500 ease-in-out ${
+            open ? "max-h-[32rem] opacity-100" : "max-h-0 opacity-0"
+          }`}
+        >
+          <ul className="flex flex-col items-start gap-1 px-6 py-4">
+            {NAV_LINKS.map((link, i) => (
+              <li
+                key={link.label}
+                className={`w-full transition-all duration-300 ease-out ${
+                  open ? "translate-x-0 opacity-100" : "-translate-x-4 opacity-0"
+                }`}
+                style={{ transitionDelay: open ? `${80 + i * 60}ms` : "0ms" }}
+              >
+                <Link
+                  to={link.to}
+                  onClick={() => {
+                    setActive(link.label);
+                    setOpen(false);
+                  }}
+                  className={`block w-full text-left py-3 text-base font-medium border-l-2 pl-3 transition-all duration-200 hover:pl-5 ${
+                    active === link.label
+                      ? "text-[#C2571A] border-[#C2571A]"
+                      : "text-slate-800 border-transparent hover:text-[#C2571A]"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li
+              className={`w-full transition-all duration-300 ease-out ${
+                open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+              }`}
+              style={{ transitionDelay: open ? `${80 + NAV_LINKS.length * 60}ms` : "0ms" }}
+            >
+              <Link
+                to="/#contact"
+                onClick={() => {
+                  setActive("Contact");
+                  setOpen(false);
+                }}
+                className="group mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-[#C2571A] px-6 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-[#A84812]"
+              >
+                Join a Class
+                <ArrowIcon />
+              </Link>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </>
   );
 }
