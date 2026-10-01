@@ -1,16 +1,23 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 
+/* ---------- Image ka link yahan paste karo ---------- */
+const ABOUT_IMG = "https://res.cloudinary.com/dquki4xol/image/upload/v1790852521/Sunlit_Artist_s_Desk_with_Portrait_Sketch_agclf4.png"; // <-- About image ka link
+
+/* ---------- Theme (Navbar + Hero jaisa) ---------- */
+const CREAM = "#FBF6EE";
+const TERRA = "#C2571A";
+const BROWN = "#3B1F14";
+const PEACH = "#F3D9BC";
+
 interface AboutProps {
-  // Left side ki group image ka link yahan pass karo (ya neeche default badal do)
   imageSrc?: string;
   imageAlt?: string;
-  brandName?: string;
   buttonTo?: string;
 }
 
-// Section screen mein aate hi ek baar animation chalane ke liye
-function useInView<T extends HTMLElement>(threshold = 0.2) {
+/* ---------- Section screen mein aate hi ek baar animation ---------- */
+function useInView<T extends HTMLElement>(threshold = 0.25) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
 
@@ -34,24 +41,19 @@ function useInView<T extends HTMLElement>(threshold = 0.2) {
 }
 
 export default function About({
-  imageSrc = "https://res.cloudinary.com/dquki4xol/image/upload/v1790578044/ChatGPT_Image_Sep_25_2026_05_13_34_PM_p1dzrl.png",
-  imageAlt = "Children drawing, dancing and doing yoga",
-  brandName = "our academy",
+  imageSrc = ABOUT_IMG,
+  imageAlt = "Art supplies and a sketch at Tutan's Creation",
   buttonTo = "/#classes",
 }: AboutProps) {
-  const { ref, visible } = useInView<HTMLElement>(0.2);
+  const { ref, visible } = useInView<HTMLElement>(0.25);
 
-  // Har element ke liye alag delay, taaki ek ke baad ek aaye
-  const reveal = (from: "left" | "right" | "up", delay = 0) => {
+  // Staggered reveal helper
+  const reveal = (delay = 0, from: "left" | "right" | "up" = "up") => {
     const hidden =
-      from === "left"
-        ? "-translate-x-10"
-        : from === "right"
-        ? "translate-x-10"
-        : "translate-y-6";
+      from === "left" ? "-translate-x-10" : from === "right" ? "translate-x-10" : "translate-y-6";
     return {
       className: `transition-all duration-700 ease-out motion-reduce:transition-none motion-reduce:transform-none ${
-        visible ? "opacity-100 translate-x-0 translate-y-0" : `opacity-0 ${hidden}`
+        visible ? "translate-x-0 translate-y-0 opacity-100" : `${hidden} opacity-0`
       }`,
       style: { transitionDelay: `${delay}ms` },
     };
@@ -61,55 +63,77 @@ export default function About({
     <section
       id="about"
       ref={ref}
-      className="scroll-mt-24 bg-[#FFF8F3] px-5 py-12 sm:px-8 md:py-20"
+      className="scroll-mt-24 px-5 py-12 sm:px-8 md:py-16"
+      style={{ backgroundColor: CREAM }}
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-10 md:grid-cols-2 md:gap-14">
-        {/* Left: group image */}
-        <div {...reveal("left")} className={`relative ${reveal("left").className}`}>
-          {/* Peeche halka pink blob */}
-          <div className="absolute -left-4 -top-4 h-full w-full rounded-[2rem] bg-rose-100 md:-left-6 md:-top-6" />
-          <img
-            src={imageSrc}
-            alt={imageAlt}
-            loading="lazy"
-            className="relative w-full rounded-[2rem] object-cover shadow-xl"
-          />
+      <div className="mx-auto grid max-w-5xl items-center gap-8 md:grid-cols-[1.1fr_1fr] md:gap-12">
+        {/* ---------- Left: image ---------- */}
+        <div {...reveal(0, "left")} className={`group ${reveal(0, "left").className}`}>
+          <div
+            className="relative aspect-[16/10] overflow-hidden rounded-2xl shadow-lg transition-shadow duration-500 group-hover:shadow-2xl"
+            style={{ backgroundColor: PEACH }}
+          >
+            {imageSrc && (
+              <img
+                src={imageSrc}
+                alt={imageAlt}
+                loading="lazy"
+                className={`h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105 ${
+                  visible ? "scale-100" : "scale-110"
+                }`}
+              />
+            )}
+          </div>
         </div>
 
-        {/* Right: text */}
-        <div className="text-center md:text-left">
-          <div {...reveal("right", 150)}>
-            <h2 className="text-3xl font-bold text-indigo-950 sm:text-4xl md:text-5xl">
-              About Us
-            </h2>
-            {/* Underline jo width mein animate hoti hai */}
-            <span
-              className={`mx-auto mt-2 block h-1 rounded-full bg-rose-500 transition-all duration-700 ease-out motion-reduce:transition-none md:mx-0 ${
-                visible ? "w-24" : "w-0"
-              }`}
-              style={{ transitionDelay: "600ms" }}
-            />
-          </div>
+        {/* ---------- Right: text ---------- */}
+        <div>
+          <h2
+            {...reveal(150, "right")}
+            className={`text-2xl font-extrabold uppercase tracking-wide sm:text-3xl ${
+              reveal(150, "right").className
+            }`}
+            style={{ ...reveal(150, "right").style, color: BROWN }}
+          >
+            About Us
+          </h2>
 
           <p
-            {...reveal("right", 300)}
-            className={`mt-5 text-sm leading-relaxed text-slate-600 sm:text-base ${
-              reveal("right", 300).className
+            {...reveal(300, "right")}
+            className={`mt-3 max-w-md text-sm leading-relaxed text-[#4A3A31] sm:text-base ${
+              reveal(300, "right").className
             }`}
+            style={reveal(300, "right").style}
           >
-            At {brandName}, we believe every child is unique and full of
-            potential. Our classes in Drawing, Dance, and Yoga are designed to
-            inspire creativity, build confidence, and promote overall
-            well-being. We provide a safe, supportive, and joyful environment
-            where children can learn, explore, express themselves, and grow.
+            Tutan&rsquo;s Creation is a creative academy where art, rhythm and wellness come
+            together. We provide a nurturing space for all age groups to explore their talents in
+            Drawing, Dance and Yoga.
           </p>
 
-          <div {...reveal("up", 500)}>
+          <div {...reveal(450)}>
             <Link
               to={buttonTo}
-              className="mt-7 inline-flex items-center rounded-full bg-rose-500 px-7 py-2.5 text-sm font-semibold text-white shadow-md transition-all duration-200 hover:-translate-y-0.5 hover:bg-rose-600 hover:shadow-lg active:translate-y-0"
+              className="group/link relative mt-5 inline-flex items-center gap-1.5 text-sm font-semibold sm:text-base"
+              style={{ color: TERRA }}
             >
-              Know More
+              Learn More
+              <svg
+                viewBox="0 0 24 24"
+                className="h-4 w-4 transition-transform duration-300 group-hover/link:translate-x-1.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <line x1="5" y1="12" x2="19" y2="12" />
+                <polyline points="12 5 19 12 12 19" />
+              </svg>
+              {/* Hover par underline grow karti hai */}
+              <span
+                className="absolute -bottom-1 left-0 h-0.5 w-0 rounded-full transition-all duration-300 ease-out group-hover/link:w-full"
+                style={{ backgroundColor: TERRA }}
+              />
             </Link>
           </div>
         </div>

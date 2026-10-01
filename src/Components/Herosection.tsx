@@ -173,33 +173,7 @@ export default function Hero({
         </div>
       </div>
 
-      {/* ---------- Feature strip ---------- */}
-      <div className="relative border-t" style={{ borderColor: "#EFE4D3", backgroundColor: "#FBF6EE" }}>
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-4 px-6 py-8 sm:grid-cols-3 sm:gap-6 sm:px-10">
-          {FEATURES.map((f, i) => (
-            <div
-              key={f.title}
-              className={`flex items-start gap-4 rounded-2xl border bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-1.5 hover:shadow-md ${
-                mounted ? "opacity-100" : "opacity-0"
-              }`}
-              style={{ borderColor: "#EFE4D3", transitionDelay: `${500 + i * 120}ms` }}
-            >
-              <span
-                className="hero-float flex h-12 w-12 shrink-0 items-center justify-center rounded-full"
-                style={{ backgroundColor: f.bg, animation: `hero-float 3.5s ease-in-out ${i * 0.4}s infinite` }}
-              >
-                {f.icon}
-              </span>
-              <div>
-                <p className="text-sm font-bold sm:text-base" style={{ color: BROWN }}>
-                  {f.title}
-                </p>
-                <p className="mt-0.5 text-xs text-[#7A6558] sm:text-sm">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+    
     </section>
   );
 }
