@@ -1,18 +1,44 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { Link } from "react-router-dom";
 
+/* ------------------------------------------------------------------ */
+/* Config – yahan se content badal sakte ho                            */
+/* ------------------------------------------------------------------ */
+
 interface FooterProps {
-  logoSrc?: string;
-  logoAlt?: string;
   ctaTo?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  mapUrl?: string;
+  /** Optional: apni dancer / leaf image dena chaho to yahan do, warna SVG dikhega */
+  dancerSrc?: string;
+  leafSrc?: string;
 }
 
-const QUICK_LINKS = ["Home", "About Us", "Classes", "Gallery", "Contact"];
-const CLASSES = ["Drawing Class", "Dance Class", "Yoga Class"];
+const NAV_LINKS = [
+  { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
+  { label: "Courses", to: "/classes" },
+  { label: "Gallery", to: "/gallery" },
+  { label: "Contact", to: "/#contact" },
+];
+
+const TAGLINE = ["Draw", "Paint", "Dance", "Grow"];
+
+const SOCIALS = [
+  { key: "fb", label: "Facebook", href: "#", icon: <FacebookIcon /> },
+  { key: "ig", label: "Instagram", href: "#", icon: <InstagramIcon /> },
+  { key: "yt", label: "YouTube", href: "#", icon: <YoutubeIcon /> },
+];
+
+/* ------------------------------------------------------------------ */
+/* Icons                                                               */
+/* ------------------------------------------------------------------ */
 
 function FacebookIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.1 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12Z" />
     </svg>
   );
@@ -20,26 +46,47 @@ function FacebookIcon() {
 
 function InstagramIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
       <rect x="3" y="3" width="18" height="18" rx="5" />
       <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="1" fill="white" stroke="none" />
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
     </svg>
   );
 }
 
 function YoutubeIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="white">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M23 12s0-3.6-.46-5.3a2.9 2.9 0 0 0-2-2C18.9 4.2 12 4.2 12 4.2s-6.9 0-8.54.5a2.9 2.9 0 0 0-2 2C1 8.4 1 12 1 12s0 3.6.46 5.3a2.9 2.9 0 0 0 2 2c1.64.5 8.54.5 8.54.5s6.9 0 8.54-.5a2.9 2.9 0 0 0 2-2C23 15.6 23 12 23 12Z" />
-      <path d="M9.75 15.5V8.5L15.5 12l-5.75 3.5Z" fill="#DC2626" />
+      <path d="M9.75 15.5V8.5L15.5 12l-5.75 3.5Z" fill="#3B2A20" />
     </svg>
   );
 }
 
-function MapPinIcon() {
+const iconProps = {
+  width: 26,
+  height: 26,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2.2,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+function MailIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DB2777" strokeWidth="2">
+    <svg {...iconProps} fill="currentColor" stroke="none">
+      <path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v.3l-10 6.4L2 5.8v-.3Z" />
+      <path d="M22 8.2v10.3a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5V8.2l9.46 6.05a1 1 0 0 0 1.08 0L22 8.2Z" />
+    </svg>
+  );
+}
+
+function PinIcon() {
+  return (
+    <svg {...iconProps}>
       <path d="M12 22s7-7.4 7-12.5A7 7 0 0 0 5 9.5C5 14.6 12 22 12 22Z" />
       <circle cx="12" cy="9.5" r="2.5" />
     </svg>
@@ -48,119 +95,227 @@ function MapPinIcon() {
 
 function PhoneIcon() {
   return (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16A34A" strokeWidth="2">
-      <path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.7a2 2 0 0 1-.5 2.1L8 9.7a16 16 0 0 0 6 6l1.2-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.5 2.7.6a2 2 0 0 1 1.7 2Z" />
+    <svg {...iconProps} fill="currentColor" stroke="none">
+      <path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25c1.1.37 2.3.57 3.6.57a1 1 0 0 1 1 1V20a1 1 0 0 1-1 1C10.6 21 3 13.4 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1L6.6 10.8Z" />
     </svg>
   );
 }
 
-function FooterLinkList({ title, items }: { title: string; items: string[] }) {
+function MapIcon() {
   return (
-    <div>
-      <h3 className="text-lg font-bold text-blue-950 relative inline-block pb-2 mb-4">
-        {title}
-        <span className="absolute left-0 -bottom-0.5 h-0.5 w-8 bg-rose-500 rounded-full" />
-      </h3>
-      <ul className="space-y-2.5">
-        {items.map((item) => (
-          <li key={item}>
-            <a
-              href="#"
-              className="text-slate-600 text-sm inline-block transition-all duration-200 hover:text-rose-600 hover:translate-x-1"
-            >
-              {item}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <svg {...iconProps}>
+      <path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5L9 4Z" />
+      <path d="M9 4v13.5M15 6.5V20" />
+    </svg>
   );
 }
 
-// CTA banner screen mein aate hi ek baar animation chalane ke liye
-function useInView<T extends HTMLElement>(threshold = 0.4) {
+function ArrowIcon() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M5 12h14M13 6l6 6-6 6" />
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Illustrations (replace with images via props if you want)           */
+/* ------------------------------------------------------------------ */
+
+function DancerArt() {
+  return (
+    <svg viewBox="0 0 130 160" className="h-full w-full" fill="none" stroke="#3B2A20" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="58" cy="34" r="6" fill="#3B2A20" />
+      {/* raised arm */}
+      <path d="M54 46C60 34 70 18 82 6" strokeWidth="3" />
+      <path d="M54 48C44 52 36 56 30 64" strokeWidth="2.5" />
+      {/* torso */}
+      <path d="M54 44C50 58 52 70 58 82" strokeWidth="4" />
+      {/* back leg */}
+      <path d="M58 82C44 96 28 112 8 134" strokeWidth="3.5" />
+      <path d="M8 134l-6 8" strokeWidth="2.5" />
+      {/* front leg */}
+      <path d="M58 82C74 90 88 104 100 126" strokeWidth="3.5" />
+      <path d="M100 126l10 6" strokeWidth="2.5" />
+      {/* skirt flow */}
+      <path d="M52 76C40 80 30 84 22 92M62 78C74 78 86 82 94 90" strokeWidth="1.5" opacity=".6" />
+    </svg>
+  );
+}
+
+function LeafArt() {
+  const leaves = [
+    { cx: 40, cy: 118, r: -40 },
+    { cx: 66, cy: 100, r: 30 },
+    { cx: 36, cy: 84, r: -50 },
+    { cx: 70, cy: 68, r: 40 },
+    { cx: 42, cy: 52, r: -35 },
+    { cx: 62, cy: 32, r: 25 },
+  ];
+  return (
+    <svg viewBox="0 0 100 150" className="h-full w-full" aria-hidden="true">
+      <path d="M12 148C30 120 52 80 56 12" fill="none" stroke="#3B2A20" strokeWidth="2.2" strokeLinecap="round" />
+      {leaves.map((l, i) => (
+        <ellipse key={i} cx={l.cx} cy={l.cy} rx="6" ry="15" fill="#3B2A20" transform={`rotate(${l.r} ${l.cx} ${l.cy})`} />
+      ))}
+    </svg>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Hooks                                                               */
+/* ------------------------------------------------------------------ */
+
+function useInView<T extends HTMLElement>(threshold = 0.25) {
   const ref = useRef<T | null>(null);
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const observer = new IntersectionObserver(
+    const io = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true);
-          observer.disconnect();
+          io.disconnect();
         }
       },
       { threshold }
     );
-    observer.observe(el);
-    return () => observer.disconnect();
+    io.observe(el);
+    return () => io.disconnect();
   }, [threshold]);
 
   return { ref, visible };
 }
 
-const KEYFRAMES = `
-@keyframes cta-shine {
+/* ------------------------------------------------------------------ */
+/* Styles                                                              */
+/* ------------------------------------------------------------------ */
+
+const STYLES = `
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@500;600&display=swap');
+
+.tc-sans  { font-family: 'Inter', system-ui, sans-serif; }
+.tc-serif { font-family: 'Playfair Display', Georgia, serif; }
+
+@keyframes tc-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-8px) rotate(-1.5deg); }
+}
+@keyframes tc-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50%      { transform: rotate(3deg); }
+}
+@keyframes tc-shine {
   0%   { transform: translateX(-120%) skewX(-20deg); }
-  100% { transform: translateX(220%) skewX(-20deg); }
+  100% { transform: translateX(260%) skewX(-20deg); }
 }
-@keyframes cta-pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.5); }
-  50%      { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
+@keyframes tc-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(184, 90, 38, .45); }
+  100% { box-shadow: 0 0 0 16px rgba(184, 90, 38, 0); }
 }
+@keyframes tc-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25%      { transform: rotate(-12deg) scale(1.1); }
+  75%      { transform: rotate(10deg) scale(1.1); }
+}
+@keyframes tc-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes tc-grow-x {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes tc-pop {
+  from { opacity: 0; transform: translateY(10px) scale(.92); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.tc-float  { animation: tc-float 5s ease-in-out infinite; transform-origin: 50% 100%; }
+.tc-sway   { animation: tc-sway 4.5s ease-in-out infinite; transform-origin: 20% 100%; }
+.tc-btn-ring { animation: tc-ring 2.4s ease-out 1.6s 3; }
+.tc-rise   { opacity: 0; animation: tc-rise .7s ease-out forwards; }
+.tc-line-l { transform-origin: right center; animation: tc-grow-x .9s ease-out .3s both; }
+.tc-line-r { transform-origin: left center;  animation: tc-grow-x .9s ease-out .3s both; }
+.tc-pop    { animation: tc-pop .28s cubic-bezier(.2,.9,.3,1.2) both; }
+.tc-item:hover .tc-item-icon,
+.tc-item[data-open="true"] .tc-item-icon { animation: tc-wiggle .6s ease-in-out; }
+
 @media (prefers-reduced-motion: reduce) {
-  .cta-shine, .cta-pulse { animation: none !important; }
+  .tc-float, .tc-sway, .tc-btn-ring, .tc-line-l, .tc-line-r, .tc-pop,
+  .tc-item:hover .tc-item-icon, .tc-item[data-open="true"] .tc-item-icon { animation: none !important; }
+  .tc-rise { animation: none !important; opacity: 1; }
 }
 `;
 
-function CtaBanner({ ctaTo = "/#contact" }: { ctaTo?: string }) {
+/* ------------------------------------------------------------------ */
+/* CTA banner                                                          */
+/* ------------------------------------------------------------------ */
+
+function CtaBanner({
+  ctaTo,
+  dancerSrc,
+  leafSrc,
+}: {
+  ctaTo: string;
+  dancerSrc?: string;
+  leafSrc?: string;
+}) {
   const { ref, visible } = useInView<HTMLDivElement>();
 
   return (
-    <div ref={ref} className="px-5 pt-10 sm:px-8 md:pt-14">
-      <style>{KEYFRAMES}</style>
+    <div ref={ref} className="bg-[#FCF7F0] px-4 pt-5 sm:px-6">
       <div
-        className={`relative mx-auto max-w-6xl overflow-hidden rounded-3xl bg-gradient-to-r from-rose-500 to-pink-600 px-6 py-8 shadow-lg transition-all duration-700 ease-out motion-reduce:transition-none sm:px-10 md:py-10 ${
+        className={`relative mx-auto max-w-6xl overflow-hidden rounded-2xl bg-[#F8EDE0] px-6 py-8 transition-all duration-700 ease-out motion-reduce:transition-none sm:py-9 ${
           visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
         }`}
       >
-        {/* Shine sweep, sirf ek baar entrance ke baad */}
-        {visible && (
-          <span
-            aria-hidden="true"
-            className="cta-shine pointer-events-none absolute inset-y-0 left-0 w-1/3 bg-white/20"
-            style={{ animation: "cta-shine 1.2s ease-out 0.4s both" }}
-          />
-        )}
+        {/* Dancer – left */}
+        <div className="tc-float pointer-events-none absolute -bottom-1 left-2 h-24 w-20 sm:left-8 sm:h-32 sm:w-28 md:h-36 md:w-32">
+          {dancerSrc ? <img src={dancerSrc} alt="" className="h-full w-full object-contain" /> : <DancerArt />}
+        </div>
 
-        <div className="relative flex flex-col items-center justify-between gap-5 text-center md:flex-row md:text-left">
-          <div
-            className={`transition-all duration-700 ease-out motion-reduce:transition-none ${
-              visible ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"
+        {/* Leaf – right */}
+        <div className="tc-sway pointer-events-none absolute -bottom-1 right-2 h-20 w-14 sm:right-10 sm:h-28 sm:w-20 md:h-32 md:w-24">
+          {leafSrc ? <img src={leafSrc} alt="" className="h-full w-full object-contain" /> : <LeafArt />}
+        </div>
+
+        <div className="tc-sans relative mx-auto flex max-w-xl flex-col items-center px-8 text-center sm:px-0">
+          <h2
+            className={`text-2xl font-semibold tracking-wide text-[#1A110C] transition-all duration-700 ease-out motion-reduce:transition-none sm:text-3xl ${
+              visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
             style={{ transitionDelay: "150ms" }}
           >
-            <h3 className="text-xl font-bold text-white sm:text-2xl md:text-3xl">
-              Ready to Begin the Journey?
-            </h3>
-            <p className="mt-1 text-sm text-rose-50 sm:text-base">
-              Join Tutan's Creation and let your child explore, learn and grow.
-            </p>
-          </div>
+            JOIN TUTAN&apos;S CREATION
+          </h2>
+          <p
+            className={`mt-2 text-sm font-medium text-[#1A110C] transition-all duration-700 ease-out motion-reduce:transition-none sm:text-base ${
+              visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            }`}
+            style={{ transitionDelay: "280ms" }}
+          >
+            Let your creativity, energy and inner peace grow with us.
+          </p>
 
           <Link
             to={ctaTo}
-            className={`cta-pulse shrink-0 rounded-full bg-white px-7 py-2.5 text-sm font-semibold text-rose-600 shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-rose-50 hover:shadow-xl active:translate-y-0 motion-reduce:transition-none ${
-              visible ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+            className={`group relative mt-6 inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#B85A26] px-9 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none ${
+              visible ? "tc-btn-ring translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
-            style={{
-              transitionDelay: "300ms",
-              animation: visible ? "cta-pulse 2.4s ease-out 1.6s 3" : "none",
-            }}
+            style={{ transitionDelay: visible ? "0ms, 0ms, 0ms" : "400ms" }}
           >
-            Enroll Now
+            {/* shine sweep on hover */}
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-[120%] bg-white/25 group-hover:[animation:tc-shine_.8s_ease-out]"
+            />
+            <span className="relative">JOIN NOW</span>
+            <span className="relative transition-transform duration-300 group-hover:translate-x-1.5">
+              <ArrowIcon />
+            </span>
           </Link>
         </div>
       </div>
@@ -168,107 +323,260 @@ function CtaBanner({ ctaTo = "/#contact" }: { ctaTo?: string }) {
   );
 }
 
-export default function Footer({
-  logoSrc = "https://res.cloudinary.com/dquki4xol/image/upload/v1790335634/ChatGPT_Image_Sep_25__2026__04_49_01_PM-removebg-preview_hyu9mr.png",
-  logoAlt = "Tutan's Creation logo",
-  ctaTo = "/#contact",
-}: FooterProps) {
-  const [hoveredSocial, setHoveredSocial] = useState<string | null>(null);
+/* ------------------------------------------------------------------ */
+/* Contact strip with hover info                                       */
+/* ------------------------------------------------------------------ */
+
+interface InfoItem {
+  key: string;
+  label: string;
+  icon: ReactNode;
+  title: string;
+  body: ReactNode;
+}
+
+function ContactStrip({
+  email,
+  phone,
+  address,
+  mapUrl,
+}: {
+  email: string;
+  phone: string;
+  address: string;
+  mapUrl: string;
+}) {
+  const [active, setActive] = useState<string | null>(null);
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const { ref, visible } = useInView<HTMLDivElement>(0.3);
+
+  // bahar tap/click karne par ya Escape dabane par band
+  useEffect(() => {
+    const onDown = (e: PointerEvent) => {
+      if (wrapRef.current && !wrapRef.current.contains(e.target as Node)) setActive(null);
+    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setActive(null);
+    document.addEventListener("pointerdown", onDown);
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDown);
+      document.removeEventListener("keydown", onKey);
+    };
+  }, []);
+
+  const linkCls =
+    "font-semibold text-[#B85A26] underline-offset-4 transition-colors hover:text-[#8A3F15] hover:underline";
+
+  const items: InfoItem[] = [
+    {
+      key: "contact",
+      label: "CONTACT",
+      icon: <MailIcon />,
+      title: "Write to us",
+      body: (
+        <a href={`mailto:${email}`} className={linkCls}>
+          {email}
+        </a>
+      ),
+    },
+    {
+      key: "address",
+      label: "ADDRESS",
+      icon: <PinIcon />,
+      title: "Visit our studio",
+      body: <span>{address}</span>,
+    },
+    {
+      key: "phone",
+      label: "PHONE",
+      icon: <PhoneIcon />,
+      title: "Call us",
+      body: (
+        <a href={`tel:${phone.replace(/\s/g, "")}`} className={linkCls}>
+          {phone}
+        </a>
+      ),
+    },
+    {
+      key: "map",
+      label: "MAP",
+      icon: <MapIcon />,
+      title: "Find us on the map",
+      body: (
+        <a href={mapUrl} target="_blank" rel="noreferrer" className={linkCls}>
+          Open in Google Maps
+        </a>
+      ),
+    },
+  ];
 
   return (
-    <footer className="relative bg-white overflow-hidden">
-      {/* CTA banner */}
-      <CtaBanner ctaTo={ctaTo} />
-
-      {/* Main content */}
-      <div className="relative max-w-7xl mx-auto px-6 sm:px-10 pt-14 pb-24 grid grid-cols-1 md:grid-cols-4 gap-10">
-        {/* Brand column */}
-        <div>
-          <img src={logoSrc} alt={logoAlt} className="h-20 w-auto object-contain mb-3" />
-          <p className="text-slate-600 text-sm leading-relaxed max-w-xs">
-            Nurturing creativity and wellness for a brighter tomorrow through
-            Art, Dance and Yoga.
-          </p>
-          <div className="flex items-center gap-3 mt-5">
-            {[
-              { key: "fb", bg: "bg-blue-600", icon: <FacebookIcon /> },
-              {
-                key: "ig",
-                bg: "bg-gradient-to-tr from-amber-400 via-pink-500 to-purple-600",
-                icon: <InstagramIcon />,
-              },
-              { key: "yt", bg: "bg-red-600", icon: <YoutubeIcon /> },
-            ].map((s) => (
-              <a
-                key={s.key}
-                href="#"
-                onMouseEnter={() => setHoveredSocial(s.key)}
-                onMouseLeave={() => setHoveredSocial(null)}
-                className={`flex items-center justify-center w-9 h-9 rounded-full ${s.bg} transition-transform duration-200 ease-out ${
-                  hoveredSocial === s.key ? "scale-110 -translate-y-0.5 shadow-md" : ""
-                }`}
-              >
-                {s.icon}
-              </a>
-            ))}
-          </div>
-        </div>
-
-        <FooterLinkList title="Quick Links" items={QUICK_LINKS} />
-        <FooterLinkList title="Our Classes" items={CLASSES} />
-
-        {/* Contact column */}
-        <div>
-          <h3 className="text-lg font-bold text-blue-950 relative inline-block pb-2 mb-4">
-            Contact Us
-            <span className="absolute left-0 -bottom-0.5 h-0.5 w-8 bg-rose-500 rounded-full" />
-          </h3>
-          <div className="flex items-start gap-3 mb-4">
-            <span className="flex items-center justify-center w-9 h-9 rounded-full bg-rose-100 shrink-0">
-              <MapPinIcon />
-            </span>
-            <p className="text-slate-600 text-sm leading-relaxed pt-1.5">
-              3 no, Sreema Road, Near Kathattola, Kolkata - 65
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="flex items-center justify-center w-9 h-9 rounded-full bg-emerald-100 shrink-0">
-              <PhoneIcon />
-            </span>
-            <a
-              href="tel:9836365640"
-              className="text-blue-950 font-bold text-base transition-colors duration-200 hover:text-rose-600"
+    <div ref={ref} className="tc-sans bg-[#FCF7F0] px-4 pb-7 pt-7 sm:px-6">
+      <div ref={wrapRef} className="mx-auto grid max-w-5xl grid-cols-2 gap-x-4 gap-y-6 md:grid-cols-4">
+        {items.map((item, i) => {
+          const open = active === item.key;
+          const id = `tc-info-${item.key}`;
+          return (
+            <div
+              key={item.key}
+              className={`relative flex justify-center transition-all duration-700 ease-out motion-reduce:transition-none ${
+                visible ? "translate-y-0 opacity-100" : "translate-y-5 opacity-0"
+              }`}
+              style={{ transitionDelay: `${i * 90}ms` }}
+              onMouseEnter={() => setActive(item.key)}
+              onMouseLeave={() => setActive(null)}
+              onFocus={() => setActive(item.key)}
+              onBlur={(e) => {
+                if (!e.currentTarget.contains(e.relatedTarget as Node)) setActive(null);
+              }}
             >
-              9836365640
-            </a>
-          </div>
-        </div>
-      </div>
+              <button
+                type="button"
+                data-open={open}
+                aria-describedby={open ? id : undefined}
+                aria-expanded={open}
+                onClick={() => setActive(item.key)}
+                className="tc-item group flex items-center gap-3 rounded-lg px-3 py-2 text-[#1A110C] transition-colors duration-200 hover:text-[#B85A26] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] sm:gap-4"
+              >
+                <span className="tc-item-icon inline-flex">{item.icon}</span>
+                <span className="relative text-base font-semibold tracking-wide sm:text-lg">
+                  {item.label}
+                  <span
+                    className={`absolute -bottom-1 left-0 h-0.5 w-full origin-left bg-[#B85A26] transition-transform duration-300 ${
+                      open ? "scale-x-100" : "scale-x-0"
+                    }`}
+                  />
+                </span>
+              </button>
 
-      {/* Wave decoration */}
-      <div className="absolute bottom-17 left-0 w-full leading-none pointer-events-none">
-        <svg viewBox="0 0 1440 80" className="w-full h-16 sm:h-20" preserveAspectRatio="none">
-          <path
-            d="M0,40 C240,90 480,0 720,30 C960,60 1200,10 1440,40 L1440,80 L0,80 Z"
-            fill="#EFF3FA"
-          />
-        </svg>
+              {/* Hover card */}
+              {open && (
+                <div
+                  className={`absolute bottom-full z-30 pb-3 ${
+                    i % 2 === 0 ? "left-0" : "right-0"
+                  } md:left-1/2 md:right-auto md:-translate-x-1/2`}
+                >
+                  <div
+                    id={id}
+                    role="tooltip"
+                    className="tc-pop relative w-60 rounded-2xl border border-[#E8D5BC] bg-white p-4 text-left shadow-xl sm:w-64"
+                  >
+                    <p className="text-xs font-semibold text-[#8A6B4A]">{item.title}</p>
+                    <div className="mt-1 text-sm leading-relaxed text-[#3B2A20] break-words">{item.body}</div>
+                    {/* arrow */}
+                    <span
+                      aria-hidden="true"
+                      className={`absolute -bottom-1.5 h-3 w-3 rotate-45 border-b border-r border-[#E8D5BC] bg-white ${
+                        i % 2 === 0 ? "left-10" : "right-10"
+                      } md:left-1/2 md:right-auto md:-translate-x-1/2`}
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
+    </div>
+  );
+}
 
-      {/* Bottom bar */}
-      <div className="relative bg-blue-950 text-blue-100 text-sm">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 py-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <p>© 2026 Tutan's Creation. All Rights Reserved.</p>
-          <div className="flex items-center gap-3">
-            <a href="#" className="hover:text-white transition-colors duration-200">
-              Privacy Policy
-            </a>
-            <span className="text-blue-400">|</span>
-            <a href="#" className="hover:text-white transition-colors duration-200">
-              Terms &amp; Conditions
-            </a>
-          </div>
+/* ------------------------------------------------------------------ */
+/* Footer                                                              */
+/* ------------------------------------------------------------------ */
+
+export default function Footer({
+  ctaTo = "/#contact",
+  email = "hello@tutanscreation.com", // <- apna real email daalo
+  phone = "9836365640",
+  address = "3 no, Sreema Road, Near Kathattola, Kolkata - 65",
+  mapUrl = "https://www.google.com/maps/search/?api=1&query=3+Sreema+Road+Kathattola+Kolkata+700065",
+  dancerSrc,
+  leafSrc,
+}: FooterProps) {
+  const { ref, visible } = useInView<HTMLDivElement>(0.3);
+  const delay = (ms: number) => ({ animationDelay: `${ms}ms` });
+
+  return (
+    <footer>
+      <style>{STYLES}</style>
+
+      <CtaBanner ctaTo={ctaTo} dancerSrc={dancerSrc} leafSrc={leafSrc} />
+      <ContactStrip email={email} phone={phone} address={address} mapUrl={mapUrl} />
+
+      {/* Dark bottom section */}
+      <div ref={ref} className="tc-sans bg-[#3B2A20] px-4 pb-6 pt-8 text-center text-[#F3E7D8]">
+        {/* Title with gold lines */}
+        <div className="mx-auto flex max-w-xl items-center justify-center gap-4">
+          <span className={`h-px flex-1 bg-[#B8935A] ${visible ? "tc-line-l" : "scale-x-0"}`} />
+          <h3
+            className={`tc-serif text-sm font-medium uppercase tracking-[0.08em] sm:text-base ${visible ? "tc-rise" : "opacity-0"}`}
+            style={delay(200)}
+          >
+            Tutan&apos;s Creation
+          </h3>
+          <span className={`h-px flex-1 bg-[#B8935A] ${visible ? "tc-line-r" : "scale-x-0"}`} />
         </div>
+
+        {/* Tagline */}
+        <ul
+          className={`mt-2 flex flex-wrap items-center justify-center gap-x-3 text-xs font-medium sm:text-sm ${visible ? "tc-rise" : "opacity-0"}`}
+          style={delay(350)}
+        >
+          {TAGLINE.map((w, i) => (
+            <li key={w} className="flex items-center gap-3">
+              {i > 0 && <span className="h-1 w-1 rounded-full bg-[#B8935A]" aria-hidden="true" />}
+              {w}
+            </li>
+          ))}
+        </ul>
+
+        {/* Socials */}
+        <div
+          className={`mt-4 flex items-center justify-center gap-4 ${visible ? "tc-rise" : "opacity-0"}`}
+          style={delay(500)}
+        >
+          {SOCIALS.map((s) => (
+            <a
+              key={s.key}
+              href={s.href}
+              aria-label={s.label}
+              className="inline-flex text-white transition-all duration-200 hover:-translate-y-1 hover:scale-110 hover:text-[#E3B66F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#E3B66F] motion-reduce:transition-none"
+            >
+              {s.icon}
+            </a>
+          ))}
+        </div>
+
+        {/* Nav links */}
+        <nav
+          aria-label="Footer"
+          className={`mt-4 ${visible ? "tc-rise" : "opacity-0"}`}
+          style={delay(650)}
+        >
+          <ul className="flex flex-wrap items-center justify-center gap-y-2 text-xs sm:text-[13px]">
+            {NAV_LINKS.map((l, i) => (
+              <li
+                key={l.label}
+                className={`px-3 ${i > 0 ? "border-l border-[#B8935A]/70" : ""}`}
+              >
+                <Link
+                  to={l.to}
+                  className="relative inline-block py-0.5 transition-colors duration-200 hover:text-[#E3B66F] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#E3B66F] after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-[#E3B66F] after:transition-transform after:duration-300 hover:after:scale-x-100"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <p
+          className={`mt-4 text-[11px] text-[#D9C7B0] ${visible ? "tc-rise" : "opacity-0"}`}
+          style={delay(800)}
+        >
+          © {new Date().getFullYear()} Tutan&apos;s Creation. All Rights Reserved.
+        </p>
       </div>
     </footer>
   );
