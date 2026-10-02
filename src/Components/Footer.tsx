@@ -302,7 +302,7 @@ function CtaBanner({
 
           <Link
             to={ctaTo}
-            className={`group relative mt-6 inline-flex items-center gap-2 overflow-hidden rounded-full bg-[#B85A26] px-9 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none ${
+            className={`group relative mt-6 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#D70810] px-9 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none ${
               visible ? "tc-btn-ring translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
             style={{ transitionDelay: visible ? "0ms, 0ms, 0ms" : "400ms" }}
