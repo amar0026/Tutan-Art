@@ -6,7 +6,7 @@ const ABOUT_IMG = "https://res.cloudinary.com/dquki4xol/image/upload/v1790852521
 
 /* ---------- Theme (Navbar + Hero jaisa) ---------- */
 const CREAM = "#FBF6EE";
-const TERRA = "#C2571A";
+const TERRA = "#D70810";
 const BROWN = "#3B1F14";
 const PEACH = "#F3D9BC";
 

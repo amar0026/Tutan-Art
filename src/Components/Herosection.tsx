@@ -7,7 +7,7 @@ interface HeroProps {
 
 /* ---------- Theme colours (image se match) ---------- */
 const CREAM = "#F6EBDC";
-const TERRA = "#C2571A";
+const TERRA = "#D70810";
 const BROWN = "#3B1F14";
 
 function ArrowIcon() {
@@ -63,7 +63,7 @@ export default function Hero({
       `}</style>
 
       {/* Desktop: image ke exact ratio (837:283) mein, taaki text hamesha same jagah rahe */}
-      <div className="relative lg:aspect-[837/283] lg:[container-type:inline-size]">
+      <div className="relative lg:aspect-837/283 lg:@container">
         {/* Desktop background image */}
         <div className="absolute inset-0 hidden overflow-hidden lg:block">
           <div
@@ -111,7 +111,7 @@ export default function Hero({
           <div className={buttonEnter.className} style={buttonEnter.style}>
             <Link
               to="/#contact"
-              className="group mt-6 inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:text-base lg:mt-[2.2cqw] lg:gap-[1.2cqw] lg:px-[3cqw] lg:py-[1.2cqw] lg:text-[1.7cqw]"
+              className="group mt-6 inline-flex items-center gap-3 rounded-xl px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:text-base lg:mt-[2.2cqw] lg:gap-[1.2cqw] lg:px-[3cqw] lg:py-[1.2cqw] lg:text-[1.7cqw]"
               style={{ backgroundColor: TERRA }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#A84812")}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = TERRA)}

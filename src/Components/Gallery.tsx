@@ -168,7 +168,7 @@ export default function Gallery({ buttonTo = "/gallery", speedSeconds = 30 }: Ga
       >
         <Link
           to={buttonTo}
-          className="group inline-flex items-center gap-2 rounded-full bg-[#B85A26] px-8 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none"
+          className="group inline-flex items-center gap-2 rounded-full bg-[#D70810] px-8 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none"
         >
           View More Photos
           <span className="transition-transform duration-300 group-hover:translate-x-1.5">

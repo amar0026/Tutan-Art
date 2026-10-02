@@ -132,7 +132,7 @@ export default function Navbar({
         <Link
           to="/#contact"
           onClick={() => setActive("Contact")}
-          className="nav-item-in group hidden md:inline-flex shrink-0 items-center gap-2 rounded-full bg-[#C2571A] px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#A84812] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+          className="nav-item-in group hidden md:inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#D70810] px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#A84812] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
           style={{ animationDelay: "600ms" }}
         >
           Join a Class
