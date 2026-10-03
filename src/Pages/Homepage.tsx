@@ -14,10 +14,10 @@ const Home = () => {
       <FeatureCard/>
       <About/>
       <Mission/>
-     <Classes/>
-     <Stats/>
-     <Gallery/>
-     <Testimonials/>
+      <Classes/>
+      <Stats/>
+      <Gallery/>
+      <Testimonials/>
     </>
   );
 };

@@ -3,6 +3,10 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import Home from "./Pages/Homepage";
+import About from "./Pages/Aboutpage";
+import Classes from "./Pages/Classpage";
+import Gallery from "./Pages/Gallerypage";
+import Contact from "./Pages/Contactpage";
 
 
 // Route badalne ya hash link (#about, #contact) pe click karne par
@@ -31,6 +35,11 @@ export default function App() {
       <ScrollToHash />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/classes" element={<Classes />} />
+        <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/Contact" element={<Contact />} />
         
       </Routes>
       <Footer />

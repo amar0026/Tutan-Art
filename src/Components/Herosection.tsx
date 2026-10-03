@@ -37,9 +37,8 @@ export default function Hero({
 
   // staggered entrance
   const enter = (delay: number) => ({
-    className: `transition-all duration-700 ease-out ${
-      mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
-    }`,
+    className: `transition-all duration-700 ease-out ${mounted ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
+      }`,
     style: { transitionDelay: `${delay}ms` },
   });
 
@@ -111,7 +110,7 @@ export default function Hero({
           <div className={buttonEnter.className} style={buttonEnter.style}>
             <Link
               to="/#contact"
-              className="group mt-6 inline-flex items-center gap-3 rounded-xl px-7 py-3.5 text-sm font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:text-base lg:mt-[2.2cqw] lg:gap-[1.2cqw] lg:px-[3cqw] lg:py-[1.2cqw] lg:text-[1.7cqw]"
+              className="group mt-5 inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:text-sm lg:mt-[1.8cqw] lg:gap-[0.9cqw] lg:px-[2.2cqw] lg:py-[0.9cqw] lg:text-[1.3cqw]"
               style={{ backgroundColor: TERRA }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#A84812")}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = TERRA)}
@@ -124,9 +123,8 @@ export default function Hero({
 
         {/* ---------- Mobile / tablet: image text ke neeche ---------- */}
         <div
-          className={`relative h-64 w-full bg-cover bg-no-repeat transition-opacity delay-300 duration-700 ease-out sm:h-80 lg:hidden ${
-            mounted ? "opacity-100" : "opacity-0"
-          }`}
+          className={`relative h-64 w-full bg-cover bg-no-repeat transition-opacity delay-300 duration-700 ease-out sm:h-80 lg:hidden ${mounted ? "opacity-100" : "opacity-0"
+            }`}
           style={{ backgroundImage: `url(${bgImg})`, backgroundPosition: "88% center" }}
         >
           <div
