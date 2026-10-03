@@ -92,10 +92,10 @@ export default function Navbar({
       `}</style>
 
       <nav className="nav-enter group/nav relative z-50 flex items-center justify-between gap-4 px-4 py-3 sm:px-8 lg:px-12 bg-[#F6EBDC]">
-        {/* White background layer */}
+        {/* White background layer — sirf hover par (focus-within hata diya) */}
         <span
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0 origin-top scale-y-0 bg-white opacity-0 shadow-[0_6px_18px_-8px_rgba(59,42,32,0.35)] transition-[transform,opacity] duration-500 ease-out md:group-hover/nav:scale-y-100 md:group-hover/nav:opacity-100 md:group-focus-within/nav:scale-y-100 md:group-focus-within/nav:opacity-100 motion-reduce:transition-none"
+          className="pointer-events-none absolute inset-0 z-0 origin-top scale-y-0 bg-white opacity-0 shadow-[0_6px_18px_-8px_rgba(59,42,32,0.35)] transition-[transform,opacity] duration-500 ease-out md:group-hover/nav:scale-y-100 md:group-hover/nav:opacity-100 motion-reduce:transition-none"
         />
 
         {/* Logo */}
