@@ -7,6 +7,7 @@ const NAV_LINKS = [
   { label: "About Us", to: "/about" },
   { label: "Classes", to: "/classes" },
   { label: "Gallery", to: "/gallery" },
+   { label: "Testimonials", to: "/testimonial" },
   { label: "Contact", to: "/contact" },
 ];
 

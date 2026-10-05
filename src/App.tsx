@@ -7,6 +7,7 @@ import About from "./Pages/Aboutpage";
 import Classes from "./Pages/Classpage";
 import Gallery from "./Pages/Gallerypage";
 import Contact from "./Pages/Contactpage";
+import Testimonial from "./Pages/Testimonialpage";
 
 
 // Route badalne ya hash link (#about, #contact) pe click karne par
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/classes" element={<Classes />} />
         <Route path="/Gallery" element={<Gallery />} />
         <Route path="/Gallery" element={<Gallery />} />
+        <Route path="/Testimonial" element={<Testimonial />} />
         <Route path="/Contact" element={<Contact />} />
         
       </Routes>
