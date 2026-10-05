@@ -7,9 +7,12 @@ const NAV_LINKS = [
   { label: "About Us", to: "/about" },
   { label: "Classes", to: "/classes" },
   { label: "Gallery", to: "/gallery" },
-   { label: "Testimonials", to: "/testimonial" },
+  { label: "Testimonials", to: "/testimonial" },
   { label: "Contact", to: "/contact" },
 ];
+
+// "Join a Class" button yahan le jaayega
+const JOIN_LINK = "/signup";
 
 interface NavbarProps {
   logoSrc?: string;
@@ -61,7 +64,7 @@ export default function Navbar({
 }: NavbarProps) {
   const [open, setOpen] = useState(false);
 
-  // Active link ab URL se nikalta hai — refresh ya direct link par bhi sahi link highlight hoga
+  // Active link URL se nikalta hai — refresh ya direct link par bhi sahi link highlight hoga
   const { pathname } = useLocation();
   const active =
     NAV_LINKS.find((l) => l.to === pathname)?.label ??
@@ -143,9 +146,9 @@ export default function Navbar({
           ))}
         </ul>
 
-        {/* Desktop CTA */}
+        {/* Desktop CTA → Signup page */}
         <Link
-          to="/contact"
+          to={JOIN_LINK}
           className="nav-item-in group relative z-10 hidden md:inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#D70810] px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#A84812] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
           style={{ animationDelay: `${200 + NAV_LINKS.length * 80}ms` }}
         >
@@ -206,8 +209,9 @@ export default function Navbar({
               }`}
               style={{ transitionDelay: open ? `${80 + NAV_LINKS.length * 60}ms` : "0ms" }}
             >
+              {/* Mobile CTA → Signup page */}
               <Link
-                to="/contact"
+                to={JOIN_LINK}
                 onClick={() => setOpen(false)}
                 className="group mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-[#C2571A] px-6 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-[#A84812]"
               >

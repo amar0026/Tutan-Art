@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Footer from "./Components/Footer";
 import Home from "./Pages/Homepage";
@@ -8,7 +8,8 @@ import Classes from "./Pages/Classpage";
 import Gallery from "./Pages/Gallerypage";
 import Contact from "./Pages/Contactpage";
 import Testimonial from "./Pages/Testimonialpage";
-
+import LoginPage from "./Pages/Loginpage";
+import SignupPage from "./Pages/SignupPage";
 
 // Route badalne ya hash link (#about, #contact) pe click karne par
 // us id wale section tak smooth scroll kar deta hai.
@@ -38,11 +39,16 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/classes" element={<Classes />} />
-        <Route path="/Gallery" element={<Gallery />} />
-        <Route path="/Gallery" element={<Gallery />} />
-        <Route path="/Testimonial" element={<Testimonial />} />
-        <Route path="/Contact" element={<Contact />} />
-        
+        <Route path="/gallery" element={<Gallery />} />
+        <Route path="/testimonial" element={<Testimonial />} />
+        <Route path="/contact" element={<Contact />} />
+
+        {/* Auth pages: "Join a Class" -> /signup, Signup page ka "Login" -> /login */}
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/login" element={<LoginPage />} />
+
+        {/* Koi bhi galat/unknown URL (jaise /forgot-password) Home par bhej do */}
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
       <Footer />
     </>
