@@ -265,7 +265,7 @@ export default function LoginPage({ onLogin, onGoogle, onFacebook }: LoginPagePr
             <button
               type="submit"
               disabled={loading}
-              className="lp-drop group flex w-full items-center justify-center gap-2 rounded-full bg-[#C2571A] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A84812] hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+              className="lp-drop group flex w-full items-center justify-center gap-2 rounded-full bg-[#D70810] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A84812] hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
               style={{ animationDelay: "1.3s" }}
             >
               {loading ? (
@@ -295,7 +295,7 @@ export default function LoginPage({ onLogin, onGoogle, onFacebook }: LoginPagePr
 
           <p className="lp-sans lp-drop mt-6 text-center text-xs text-slate-600" style={{ animationDelay: "1.7s" }}>
             Don&rsquo;t have an account?{" "}
-            <Link to="/signup" className="font-semibold text-[#C2571A] transition-colors hover:text-[#A84812] hover:underline">
+            <Link to="/signup" className="font-semibold text-[#C2571A] transition-colors hover:text-[#D70810] hover:underline">
               Sign Up
             </Link>
           </p>

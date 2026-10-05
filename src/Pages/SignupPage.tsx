@@ -321,7 +321,7 @@ export default function SignupPage({ onSignup, onGoogle, onFacebook }: SignupPag
             <button
               type="submit"
               disabled={loading}
-              className="sp-drop group flex w-full items-center justify-center gap-2 rounded-full bg-[#C2571A] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A84812] hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
+              className="sp-drop group flex w-full items-center justify-center gap-2 rounded-full bg-[#D70810] px-6 py-3.5 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#A84812] hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-70"
               style={{ animationDelay: "1.5s" }}
             >
               {loading ? (
@@ -351,7 +351,7 @@ export default function SignupPage({ onSignup, onGoogle, onFacebook }: SignupPag
 
           <p className="sp-sans sp-drop mt-5 text-center text-xs text-slate-600" style={{ animationDelay: "1.9s" }}>
             Already have an account?{" "}
-            <Link to="/login" className="font-semibold text-[#C2571A] transition-colors hover:text-[#A84812] hover:underline">
+            <Link to="/login" className="font-semibold text-[#C2571A] transition-colors hover:text-[#D70810] hover:underline">
               Login
             </Link>
           </p>
