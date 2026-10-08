@@ -43,7 +43,6 @@ function useInView<T extends HTMLElement>(threshold = 0.25) {
 export default function About({
   imageSrc = ABOUT_IMG,
   imageAlt = "Art supplies and a sketch at Tutan's Creation",
-  buttonTo = "/#classes",
 }: AboutProps) {
   const { ref, visible } = useInView<HTMLElement>(0.25);
 

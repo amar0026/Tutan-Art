@@ -255,7 +255,6 @@ const STYLES = `
 /* ------------------------------------------------------------------ */
 
 function CtaBanner({
-  ctaTo,
   dancerSrc,
   leafSrc,
 }: {
@@ -302,7 +301,7 @@ function CtaBanner({
 
           <Link
             to="/Signup"
-            className={`group relative mt-6 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#D70810] px-9 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none ${
+            className={`group relative mt-6 inline-flex items-center gap-2 overflow-hidden rounded-xl bg-[#D70810] px-9 py-3 text-sm font-medium tracking-wide text-white shadow-md transition-all duration-300 ease-out hover:-translate-y-0.5 hover:bg-[#A24C1D] hover:shadow-xl focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] active:translate-y-0 motion-reduce:transition-none ${
               visible ? "tc-btn-ring translate-y-0 opacity-100" : "translate-y-4 opacity-0"
             }`}
             style={{ transitionDelay: visible ? "0ms, 0ms, 0ms" : "400ms" }}
@@ -310,7 +309,7 @@ function CtaBanner({
             {/* shine sweep on hover */}
             <span
               aria-hidden="true"
-              className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -translate-x-[120%] bg-white/25 group-hover:[animation:tc-shine_.8s_ease-out]"
+              className="pointer-events-none absolute inset-y-0 left-0 w-1/3 translate-x-[-120%] bg-white/25 group-hover:animate-[tc-shine_.8s_ease-out]"
             />
             <span className="relative">JOIN NOW</span>
             <span className="relative transition-transform duration-300 group-hover:translate-x-1.5">
@@ -436,7 +435,7 @@ function ContactStrip({
                 aria-describedby={open ? id : undefined}
                 aria-expanded={open}
                 onClick={() => setActive(item.key)}
-                className="tc-item group flex items-center gap-3 rounded-lg px-3 py-2 text-[#1A110C] transition-colors duration-200 hover:text-[#B85A26] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] sm:gap-4"
+                className="tc-item group flex items-center gap-3 rounded-lg px-3 py-2 text-[#1A110C] transition-colors duration-200 hover:text-[#B85A26] focus-visible:outline focus-visible:outline-offset-2 focus-visible:outline-[#B85A26] sm:gap-4"
               >
                 <span className="tc-item-icon inline-flex">{item.icon}</span>
                 <span className="relative text-base font-semibold tracking-wide sm:text-lg">
@@ -462,7 +461,7 @@ function ContactStrip({
                     className="tc-pop relative w-60 rounded-2xl border border-[#E8D5BC] bg-white p-4 text-left shadow-xl sm:w-64"
                   >
                     <p className="text-xs font-semibold text-[#8A6B4A]">{item.title}</p>
-                    <div className="mt-1 text-sm leading-relaxed text-[#3B2A20] break-words">{item.body}</div>
+                    <div className="mt-1 text-sm leading-relaxed text-[#3B2A20] wrap-break-word">{item.body}</div>
                     {/* arrow */}
                     <span
                       aria-hidden="true"
