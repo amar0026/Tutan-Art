@@ -8,6 +8,7 @@ import Classes from "./Pages/Classpage";
 import Gallery from "./Pages/Gallerypage";
 import Contact from "./Pages/Contactpage";
 import Testimonial from "./Pages/Testimonialpage";
+import ClassDetails from "./Pages/ClassDetailspage";
 import LoginPage from "./Pages/Loginpage";
 import SignupPage from "./Pages/SignupPage";
 
@@ -39,6 +40,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/classes" element={<Classes />} />
+        <Route path="/classes/:slug" element={<ClassDetails />} />
         <Route path="/gallery" element={<Gallery />} />
         <Route path="/testimonial" element={<Testimonial />} />
         <Route path="/contact" element={<Contact />} />

@@ -1,5 +1,6 @@
 import About from "../Components/AboutSection";
-import Classes from "../Components/ClassesSection";
+import Class from "../Components/Class";
+
 import FeatureCard from "../Components/FeatureCard";
 import Gallery from "../Components/Gallery";
 import Hero from "../Components/Herosection";
@@ -14,7 +15,7 @@ const Home = () => {
       <FeatureCard/>
       <About/>
       <Mission/>
-      <Classes/>
+      <Class/>
       <Stats/>
       <Gallery/>
       <Testimonials/>

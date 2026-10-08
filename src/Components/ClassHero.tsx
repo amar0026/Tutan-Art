@@ -1,5 +1,5 @@
 
-const BG_IMG: string = "https://res.cloudinary.com/dquki4xol/image/upload/v1791009186/Bharatanatyam_Grace_in_a_Sunlit_Studio_rs8pqf.png";
+const BG_IMG: string = "https://res.cloudinary.com/dquki4xol/image/upload/v1790940552/Sunlit_Creative_Wellness_Studio_stgstp.png";
 
 export default function ClassHero() {
   return (

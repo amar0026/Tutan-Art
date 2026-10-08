@@ -75,7 +75,7 @@ export default function About({
         {/* ---------- Left: image ---------- */}
         <div className={`group ${imageReveal.className}`} style={imageReveal.style}>
           <div
-            className="relative aspect-[16/11] overflow-hidden rounded-3xl shadow-xl transition-shadow duration-500 group-hover:shadow-2xl"
+            className="relative aspect-16/11 overflow-hidden rounded-3xl shadow-xl transition-shadow duration-500 group-hover:shadow-2xl"
             style={{ backgroundColor: PEACH }}
           >
             {imageSrc && (
@@ -83,7 +83,7 @@ export default function About({
                 src={imageSrc}
                 alt={imageAlt}
                 loading="lazy"
-                className={`h-full w-full object-cover transition-transform duration-[1400ms] ease-out group-hover:scale-105 ${
+                className={`h-full w-full object-cover transition-transform duration-1400 ease-out group-hover:scale-105 ${
                   visible ? "scale-100" : "scale-110"
                 }`}
               />
@@ -111,7 +111,7 @@ export default function About({
 
           <div className={linkReveal.className} style={linkReveal.style}>
             <Link
-              to={buttonTo}
+              to="/about"
               className="group/link relative mt-7 inline-flex items-center gap-2 text-base font-semibold sm:text-lg lg:text-xl"
               style={{ color: TERRA }}
             >

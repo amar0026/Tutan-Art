@@ -1,3 +1,5 @@
+import Class from "../Components/Class";
+import ClassCard from "../Components/ClassCard";
 import ClassHero from "../Components/ClassHero";
 
 
@@ -6,6 +8,7 @@ const Classes = () => {
   return (
     <>
      <ClassHero/>
+     <ClassCard/>
     </>
   );
 };

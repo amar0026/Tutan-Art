@@ -109,7 +109,7 @@ export default function Hero({
           {/* Button */}
           <div className={buttonEnter.className} style={buttonEnter.style}>
             <Link
-              to="/#contact"
+              to="/Signup"
               className="group mt-5 inline-flex items-center gap-2 rounded-lg px-4 py-2.5 text-xs font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 sm:text-sm lg:mt-[1.8cqw] lg:gap-[0.9cqw] lg:px-[2.2cqw] lg:py-[0.9cqw] lg:text-[1.3cqw]"
               style={{ backgroundColor: TERRA }}
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#A84812")}
