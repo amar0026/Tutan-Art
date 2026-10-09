@@ -14,6 +14,9 @@ const NAV_LINKS = [
 // "Join a Class" button yahan le jaayega
 const JOIN_LINK = "/signup";
 
+// Profile icon yahan le jaayega
+const PROFILE_LINK = "/profile";
+
 interface NavbarProps {
   logoSrc?: string;
   logoAlt?: string;
@@ -34,6 +37,15 @@ function CloseIcon() {
     <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
+    </svg>
+  );
+}
+
+function UserIcon({ size = 22 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" />
     </svg>
   );
 }
@@ -71,6 +83,8 @@ export default function Navbar({
     NAV_LINKS.find((l) => l.to === pathname)?.label ??
     NAV_LINKS.find((l) => l.to !== "/" && pathname.startsWith(l.to))?.label ??
     "";
+
+  const profileActive = pathname.startsWith(PROFILE_LINK);
 
   // Route badalte hi (back button / link) mobile menu band ho jaye
   useEffect(() => {
@@ -160,6 +174,28 @@ export default function Navbar({
           ))}
         </ul>
 
+        {/* Profile icon → Profile page (desktop) */}
+        <Link
+          to={PROFILE_LINK}
+          aria-label="My Profile"
+          aria-current={profileActive ? "page" : undefined}
+          className={`nav-item-in group/pf relative z-10 mr-3 hidden h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 transition-all duration-300 hover:-translate-y-0.5 hover:scale-105 hover:border-[#C2571A] hover:bg-[#C2571A] hover:text-white hover:shadow-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#C2571A] active:scale-95 md:flex lg:mr-4 lg:h-12 lg:w-12 ${
+            profileActive ? "border-[#C2571A] bg-[#C2571A] text-white shadow-md" : "border-[#C2571A]/40 bg-white/70 text-[#C2571A]"
+          }`}
+          style={{ animationDelay: `${150 + NAV_LINKS.length * 80}ms` }}
+        >
+          <span className="transition-transform duration-300 group-hover/pf:scale-110">
+            <UserIcon />
+          </span>
+          {/* Hover par chhota label */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-1/2 top-full z-20 mt-2 -translate-x-1/2 translate-y-1 whitespace-nowrap rounded-md bg-[#3B2A20] px-2.5 py-1 text-xs font-medium text-white opacity-0 shadow-lg transition-all duration-200 group-hover/pf:translate-y-0 group-hover/pf:opacity-100 group-focus-visible/pf:translate-y-0 group-focus-visible/pf:opacity-100"
+          >
+            My Profile
+          </span>
+        </Link>
+
         {/* Desktop CTA → Signup page */}
         <Link
           to={JOIN_LINK}
@@ -170,10 +206,22 @@ export default function Navbar({
           <ArrowIcon />
         </Link>
 
-        {/* Mobile toggle */}
+        {/* Mobile: profile icon + menu toggle */}
+        <div className="relative z-10 flex items-center gap-1 md:hidden">
+        <Link
+          to={PROFILE_LINK}
+          aria-label="My Profile"
+          aria-current={profileActive ? "page" : undefined}
+          onClick={() => setOpen(false)}
+          className={`rounded-full p-2.5 transition-all duration-300 hover:bg-[#F3E7D6] hover:text-[#C2571A] active:scale-90 ${
+            profileActive ? "bg-[#F3E7D6] text-[#C2571A]" : "text-slate-800"
+          }`}
+        >
+          <UserIcon size={26} />
+        </Link>
         <button
           type="button"
-          className="relative z-10 md:hidden rounded-full p-2.5 text-slate-800 transition-all duration-300 hover:bg-[#F3E7D6] hover:text-[#C2571A] active:scale-90"
+          className="rounded-full p-2.5 text-slate-800 transition-all duration-300 hover:bg-[#F3E7D6] hover:text-[#C2571A] active:scale-90"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
           aria-expanded={open}
@@ -187,6 +235,7 @@ export default function Navbar({
             {open ? <CloseIcon /> : <MenuIcon />}
           </span>
         </button>
+        </div>
 
         {/* Mobile menu */}
         <div
@@ -226,6 +275,18 @@ export default function Navbar({
               }`}
               style={{ transitionDelay: open ? `${80 + NAV_LINKS.length * 60}ms` : "0ms" }}
             >
+              {/* Mobile: My Profile */}
+              <Link
+                to={PROFILE_LINK}
+                tabIndex={open ? 0 : -1}
+                aria-current={profileActive ? "page" : undefined}
+                onClick={() => setOpen(false)}
+                className={`flex w-full items-center gap-2 border-l-2 py-3 pl-3 text-base font-medium transition-all duration-200 hover:pl-5 ${
+                  profileActive ? "border-[#C2571A] text-[#C2571A]" : "border-transparent text-slate-800 hover:text-[#C2571A]"
+                }`}
+              >
+                <UserIcon size={20} /> My Profile
+              </Link>
               {/* Mobile CTA → Signup page */}
               <Link
                 to={JOIN_LINK}
