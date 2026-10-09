@@ -1,7 +1,3 @@
-// src/Components/GalleryCard.tsx
-// React + Vite + Tailwind CSS (TypeScript)
-// Ek single gallery card — Gallery page ka grid aur home ka slider dono isi ko use karte hain.
-
 export type GalleryCategory = "Drawing" | "Dance" | "Yoga" | "Events";
 
 export interface GalleryItem {
