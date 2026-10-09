@@ -19,11 +19,11 @@ const ClassesPage = () => {
       <ClassHero />
       <ClassesSection />
 
-      {/* <section className="mx-auto grid max-w-6xl grid-cols-1 gap-5 px-4 py-10 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="mx-auto grid max-w-6xl grid-cols-1 gap-5 px-4 py-10 sm:grid-cols-2 lg:grid-cols-3">
         {galleryItems.map((item, i) => (
           <GalleryCard key={i} item={item} index={i} onOpen={handleOpen} />
         ))}
-      </section> */}
+      </section>
     </>
   );
 };
