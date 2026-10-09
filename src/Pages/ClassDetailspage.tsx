@@ -268,7 +268,7 @@ function Details({ slug, data }: { slug: string; data: ClassData }) {
     return () => window.clearTimeout(t);
   }, [added]);
 
-  const enroll = () => navigate("/signup", { state: { classId: slug, batch: batch.label, price: data.price } });
+  const enroll = () => navigate("/payment", { state: { classId: slug, batch: batch.label, price: data.price } });
 
   const panel = "rounded-2xl border border-[#EBDCC6] bg-[#FFFBF4] p-5 shadow-sm sm:p-6";
 

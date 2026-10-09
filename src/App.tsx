@@ -11,6 +11,7 @@ import Testimonial from "./Pages/Testimonialpage";
 import ClassDetails from "./Pages/ClassDetailspage";
 import LoginPage from "./Pages/Loginpage";
 import SignupPage from "./Pages/SignupPage";
+import PaymentPage from "./Pages/PaymentPage";
 
 // Route badalne par top par scroll karta hai.
 // Hash link (#about, #contact) ho to us id wale section tak smooth scroll karta hai.
@@ -64,7 +65,8 @@ export default function App() {
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/testimonial" element={<Testimonial />} />
           <Route path="/contact" element={<Contact />} />
-
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/payment/:slug" element={<PaymentPage />} />
           {/* Auth pages: "Join a Class" -> /signup, Signup page ka "Login" -> /login */}
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/login" element={<LoginPage />} />
