@@ -180,7 +180,6 @@ const TrashIcon = mk(<><path d="M3 6h18M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2M19
 const PlusIcon = mk(<path d="M12 5v14M5 12h14" />);
 const InfoIcon = mk(<><circle cx="12" cy="12" r="9" /><path d="M12 11v5M12 8h.01" /></>);
 const CloseIcon = mk(<path d="M18 6 6 18M6 6l12 12" />);
-const CheckIcon = mk(<path d="m5 12.5 4.5 4.5L19 7.5" />);
 const EyeIcon = mk(<><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" /><circle cx="12" cy="12" r="3" /></>);
 
 const catIcon: Record<Category, (p: IconProps) => ReactNode> = {
