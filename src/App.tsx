@@ -12,20 +12,37 @@ import ClassDetails from "./Pages/ClassDetailspage";
 import LoginPage from "./Pages/Loginpage";
 import SignupPage from "./Pages/SignupPage";
 
-// Route badalne ya hash link (#about, #contact) pe click karne par
-// us id wale section tak smooth scroll kar deta hai.
+// Route badalne par top par scroll karta hai.
+// Hash link (#about, #contact) ho to us id wale section tak smooth scroll karta hai.
+// Section thodi der baad render ho to bhi dhoondhne ke liye kuch baar dobara try karta hai.
 function ScrollToHash() {
   const { pathname, hash } = useLocation();
 
   useEffect(() => {
-    if (hash) {
-      const el = document.getElementById(hash.replace("#", ""));
+    const toTop = () => window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+
+    if (!hash) {
+      toTop();
+      return;
+    }
+
+    const id = decodeURIComponent(hash.slice(1));
+    let tries = 0;
+    let timer: number | undefined;
+
+    const tryScroll = () => {
+      const el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: "smooth" });
-        return;
+      } else if (tries++ < 10) {
+        timer = window.setTimeout(tryScroll, 50);
+      } else {
+        toTop();
       }
-    }
-    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    };
+
+    tryScroll();
+    return () => window.clearTimeout(timer);
   }, [pathname, hash]);
 
   return null;
@@ -33,26 +50,31 @@ function ScrollToHash() {
 
 export default function App() {
   return (
-    <>
+    // min-h-screen + flex: chhote pages (login/signup) par bhi Footer neeche chipka rahe
+    <div className="flex min-h-screen flex-col">
       <Navbar />
       <ScrollToHash />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/classes" element={<Classes />} />
-        <Route path="/classes/:slug" element={<ClassDetails />} />
-        <Route path="/gallery" element={<Gallery />} />
-        <Route path="/testimonial" element={<Testimonial />} />
-        <Route path="/contact" element={<Contact />} />
 
-        {/* Auth pages: "Join a Class" -> /signup, Signup page ka "Login" -> /login */}
-        <Route path="/signup" element={<SignupPage />} />
-        <Route path="/login" element={<LoginPage />} />
+      <main className="flex-1">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/classes" element={<Classes />} />
+          <Route path="/classes/:slug" element={<ClassDetails />} />
+          <Route path="/gallery" element={<Gallery />} />
+          <Route path="/testimonial" element={<Testimonial />} />
+          <Route path="/contact" element={<Contact />} />
 
-        {/* Koi bhi galat/unknown URL (jaise /forgot-password) Home par bhej do */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+          {/* Auth pages: "Join a Class" -> /signup, Signup page ka "Login" -> /login */}
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Koi bhi galat/unknown URL (jaise /forgot-password) Home par bhej do */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </main>
+
       <Footer />
-    </>
+    </div>
   );
 }

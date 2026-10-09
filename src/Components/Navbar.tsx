@@ -21,7 +21,7 @@ interface NavbarProps {
 
 function MenuIcon() {
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
       <line x1="3" y1="6" x2="21" y2="6" />
       <line x1="3" y1="12" x2="21" y2="12" />
       <line x1="3" y1="18" x2="21" y2="18" />
@@ -31,7 +31,7 @@ function MenuIcon() {
 
 function CloseIcon() {
   return (
-    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
       <line x1="18" y1="6" x2="6" y2="18" />
       <line x1="6" y1="6" x2="18" y2="18" />
     </svg>
@@ -50,6 +50,7 @@ function ArrowIcon() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
+      aria-hidden="true"
       className="transition-transform duration-300 group-hover:translate-x-1"
     >
       <line x1="5" y1="12" x2="19" y2="12" />
@@ -76,6 +77,14 @@ export default function Navbar({
     setOpen(false);
   }, [pathname]);
 
+  // Esc dabane par mobile menu band
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+
   return (
     <>
       {/* Custom animations (Tailwind config ki zaroorat nahi) — upar se neeche */}
@@ -95,8 +104,11 @@ export default function Navbar({
         }
       `}</style>
 
-      <nav className="nav-enter group/nav relative z-50 flex items-center justify-between gap-4 px-4 py-3 sm:px-8 lg:px-12 bg-[#F6EBDC]">
-        {/* White background layer — sirf hover par (focus-within hata diya) */}
+      <nav
+        aria-label="Main"
+        className="nav-enter group/nav relative z-50 flex items-center justify-between gap-4 px-4 py-3 sm:px-8 lg:px-12 bg-[#F6EBDC]"
+      >
+        {/* White background layer — sirf hover par (desktop) */}
         <span
           aria-hidden="true"
           className="pointer-events-none absolute inset-0 z-0 origin-top scale-y-0 bg-white opacity-0 shadow-[0_6px_18px_-8px_rgba(59,42,32,0.35)] transition-[transform,opacity] duration-500 ease-out md:group-hover/nav:scale-y-100 md:group-hover/nav:opacity-100 motion-reduce:transition-none"
@@ -126,7 +138,8 @@ export default function Navbar({
             >
               <Link
                 to={link.to}
-                className="group relative block py-1 transition-colors duration-200 hover:text-[#C2571A]"
+                aria-current={active === link.label ? "page" : undefined}
+                className="group relative block py-1 transition-colors duration-200 hover:text-[#C2571A] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#C2571A]"
               >
                 <span
                   className={`transition-colors duration-200 ${
@@ -137,6 +150,7 @@ export default function Navbar({
                 </span>
                 {/* Underline: active par full, hover par grow karti hai */}
                 <span
+                  aria-hidden="true"
                   className={`absolute left-0 -bottom-0.5 h-0.5 rounded-full bg-[#C2571A] transition-all duration-300 ease-out ${
                     active === link.label ? "w-full" : "w-0 group-hover:w-full"
                   }`}
@@ -149,7 +163,7 @@ export default function Navbar({
         {/* Desktop CTA → Signup page */}
         <Link
           to={JOIN_LINK}
-          className="nav-item-in group relative z-10 hidden md:inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#D70810] px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#A84812] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0"
+          className="nav-item-in group relative z-10 hidden md:inline-flex shrink-0 items-center gap-2 rounded-xl bg-[#D70810] px-6 lg:px-8 py-3 lg:py-4 text-sm lg:text-base font-semibold uppercase tracking-wider text-white shadow-md transition-all duration-300 hover:bg-[#A84812] hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D70810]"
           style={{ animationDelay: `${200 + NAV_LINKS.length * 80}ms` }}
         >
           Join a Class
@@ -158,6 +172,7 @@ export default function Navbar({
 
         {/* Mobile toggle */}
         <button
+          type="button"
           className="relative z-10 md:hidden rounded-full p-2.5 text-slate-800 transition-all duration-300 hover:bg-[#F3E7D6] hover:text-[#C2571A] active:scale-90"
           onClick={() => setOpen((v) => !v)}
           aria-label="Toggle menu"
@@ -192,6 +207,8 @@ export default function Navbar({
               >
                 <Link
                   to={link.to}
+                  tabIndex={open ? 0 : -1}
+                  aria-current={active === link.label ? "page" : undefined}
                   onClick={() => setOpen(false)}
                   className={`block w-full text-left py-3 text-base font-medium border-l-2 pl-3 transition-all duration-200 hover:pl-5 ${
                     active === link.label
@@ -212,6 +229,7 @@ export default function Navbar({
               {/* Mobile CTA → Signup page */}
               <Link
                 to={JOIN_LINK}
+                tabIndex={open ? 0 : -1}
                 onClick={() => setOpen(false)}
                 className="group mt-3 flex w-full items-center justify-center gap-2 rounded-full bg-[#C2571A] px-6 py-4 text-sm font-semibold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-[#A84812]"
               >

@@ -1,7 +1,3 @@
-// src/Components/GalleryCard.tsx
-// React + Vite + Tailwind CSS (TypeScript)
-// Ek single gallery card — Gallery page ka grid aur home ka slider dono isi ko use karte hain.
-
 export type GalleryCategory = "Drawing" | "Dance" | "Yoga" | "Events";
 
 export interface GalleryItem {
@@ -19,8 +15,6 @@ interface GalleryCardProps {
   focusable?: boolean; // false = keyboard Tab se skip (slider ki duplicate copy ke liye)
 }
 
-/* Is CSS ko parent ek baar <style> mein render karta hai,
-   taaki har card ke saath dobara na likhna pade. */
 export const GALLERY_CARD_CSS = `
 @keyframes gc-drop {
   from { opacity: 0; transform: translateY(-16px); }
